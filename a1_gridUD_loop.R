@@ -35,7 +35,7 @@ library(raster)
 
 fundir <- "~/00 pew functions/"  
 source(paste0(fundir,"fn_add_weights.R"))
-source(paste0(fundir,"HomeRangeFunctionPub.R"))
+source(paste0(fundir,"fn_HomeRangePub.R"))
 source(paste0(fundir,"fn_coreUD_SP.R"))
 source(paste0(fundir,"Lon180to360.R"))
 source(paste0(fundir,"Lon360to180.R"))
@@ -93,7 +93,7 @@ for (i in 1:length(a)) { # Loop through individual species/datasets--
   int_traj<-read.csv(a[i]) # read in interpolated datafile i
   sp_name <- int_traj$species_ds[1]
   
-  spds_m <- AddWeightsFunction(sp_name, int_traj, CPF_vec) # Step 1: Add Weights for Gridded UD Analysis 
+  spds_m <- fn_add_weights(sp_name, int_traj, CPF_vec) # Step 1: Add Weights for Gridded UD Analysis 
   
   spds_m$Lon<-Lon180to360(spds_m$Lon) 
   
@@ -104,7 +104,7 @@ for (i in 1:length(a)) { # Loop through individual species/datasets--
   
   # Run Home Range Function --------------------------------------------------------------------------
   
-  ud_list <- HomeRangeFunctionPub(dropdir, sp_name, lon, lat, weightv, hr_ud, core_method, area_proj, weighted, grid_adj, meta)
+  ud_list <- fn_HomeRangePub(dropdir, sp_name, lon, lat, weightv, hr_ud, core_method, area_proj, weighted, grid_adj, meta)
   
   area_tab <- ud_list$area_tab 
   
