@@ -34,9 +34,9 @@ library(raster)
 # Load Functions -------------------------------------------------------------------------
 
 fundir <- "~/00 pew functions/"  
-source(paste0(fundir,"AddWeightsFunction.R"))
+source(paste0(fundir,"fn_add_weights.R"))
 source(paste0(fundir,"HomeRangeFunctionPub.R"))
-source(paste0(fundir,"SPCoreFunction.R"))
+source(paste0(fundir,"fn_coreUD_SP.R"))
 source(paste0(fundir,"Lon180to360.R"))
 source(paste0(fundir,"Lon360to180.R"))
 source(paste0(fundir,"km2Degree.R"))
