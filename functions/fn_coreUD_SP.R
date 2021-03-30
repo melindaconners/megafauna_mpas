@@ -1,6 +1,6 @@
 
 
-SPCoreFunction<- function(grid_ct_sppi) {
+fn_coreUD_SP<- function(grid_ct_sppi) {
     
     # --------------------------------------------------------------------------------------------------------
     # Quantifying Gridded UD: Using Seaman-Powell Method for Core Definition:
