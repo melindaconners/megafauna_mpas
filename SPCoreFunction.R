@@ -1,13 +1,14 @@
 
 SPCoreFunction<- function(grid_ct_sppi) {
-      # --------------------------------------------------------------------------------------------------------
+    
+    # --------------------------------------------------------------------------------------------------------
     # Quantifying Gridded UD: Using Seaman-Powell Method for Core Definition:
     # --------------------------------------------------------------------------------------------------------
    
     #########################################################
-    # ------  Determine the Core Area : FROM MAXWELL------- #
+    # ------  Determine the Core Area      ------- #
     #########################################################
-   # This is calculating relative area based on number of cells (not actual area)
+   # This step calculates relative area based on number of cells (not actual area)
  
     grid1<-(grid_ct_sppi==1) # 5
     area1<-(sum(getValues(grid1),na.rm=TRUE)*res(grid1)[1]*res(grid1)[2])
@@ -74,6 +75,7 @@ SPCoreFunction<- function(grid_ct_sppi) {
     #     pointsize = 6)
     # plot(cpclass,prop_area,type="o",pch=19,xlab="Probability of Use (UD contour)",ylab="Proportion of Area")
     # lines(cpclass,area_line,lwd=2)
+    
     #########################################################
     # Calculate distance, find the maximum distance, and plot
     #########################################################
