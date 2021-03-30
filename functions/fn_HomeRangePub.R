@@ -30,7 +30,7 @@ HomeRangeFunctionPub <- function(dropdir, sp_name, lon, lat, weightv, hr_ud, cor
   # Establish Grid Size
   #------------------------------------------------------------------------------------------
   
-  
+ 
   if (grid_adj == TRUE) { # Iniital run so use adjustible grid size scaled to median max range of dataset
     # 5% fixed grid scaling fctr
     fctr <- .05 
