@@ -33,7 +33,7 @@ library(raster)
 
 # Load Functions -------------------------------------------------------------------------
 
-fundir <- "~/00 pew functions/"   #/Users/melindaconners/Dropbox/Academia/03 Pew LMPA/LMPAs for Large Marine Species/rfiles/RProject_pewr/pewr
+fundir <- "~/00 pew functions/"  
 source(paste0(fundir,"AddWeightsFunction.R"))
 source(paste0(fundir,"HomeRangeFunctionPub.R"))
 source(paste0(fundir,"SPCoreFunction.R"))
@@ -46,7 +46,7 @@ source(paste0(fundir,"km2Degree.R"))
 ########################################################################################### 
 
 # Set Root Directory: This the main directory hub where files for this project live.
-root<- '~/Desktop/PNAS/analysis/'            # (e.g. rootdir <- '~/Documents/PNAS/analysis/')
+root<- '~/Documents/PewMarMega/analysis/'            
 
 # Set Data Directory: This is where the interpolated (from adehabitatLT inttraj function) animal tracking datasets (in traj class) live:
 datadir <- paste0(root,'datadir/')          
@@ -58,10 +58,12 @@ dropdir <- paste0(root,'ud_out/')
 ###########################################################################################################################################################   
 # PreAmble: Determining Grid Size. If you don't know if your spp is localized, intermediate, large, or vast ranged, use a grid size scaled to median max range
 ###########################################################################################################################################################   
-# Note: The gridded UD analysis requires user-input of grid size. We used a fixed grid size for each home range size class (e.g. localized, intermediate, large, and vast). For our initial run, we didn't know the home range size of our datasets, so we used adjustible grid sizes per dataset, informed by their median maximum range calculated per dataset (See script XXXXX.r to calculate track characteristics, including median max range). We assign a variable 'meta' which is a datatable that includes median max range per dataset(s) for initial runs and home range size class after dataset is categorized for final run. 
+# Note: The gridded UD analysis requires user-input of grid size. We used a fixed grid size for each home range size class (e.g. localized, intermediate, large, and vast). 
+# For our initial run, we didn't know the home range size of our datasets, so we used adjustible grid sizes per dataset, informed by their median maximum range calculated per dataset 
+# (See script XXXXX.r to calculate track characteristics, including median max range). 
+# We assign a variable 'meta' which contains a datatable that includes median max range per dataset(s) for initial runs and home range size class after dataset is categorized for final run. 
 
-meta<-read.csv(paste0(root,'metadir/meta_medMaxRange.csv')) # meta is a datatable that contains the columns: 1. 'sp_name'  and 2. 'median_max_range_km' and 3. 'hr_sc' (home range size class (e.g. "localized", "intermediate", "large", or "vast"))
-
+meta<-read.csv(paste0(root,'metadir/meta_medMaxRange.csv')) # meta is a datatable that contains the columns: 1. 'sp_name'  and 2. 'median_max_range_km' and 3. 'sc' home range size class (will be NA until final iteration)
 
 #######################################################################################################################################################
 # Proceed with Gridded UDs 
@@ -69,15 +71,14 @@ meta<-read.csv(paste0(root,'metadir/meta_medMaxRange.csv')) # meta is a datatabl
 
 
 # Set Central Place Foragers vector -------------------------------
-CPF_vec <- c("BFAL_018", "LAAL_002", "MABO_003")
+CPF_vec <- c("BFAL_018", "LAAL_002", "MABO_003") # Enter datasetID of central place foragers
 
 # Set Global Parameters  ------------------------------------------
-
 hr_ud       <- 90                         # Home Range UD designation (typically 95 or 90)
 core_method <- "SP"                       # Core Method: Can be "50" for using the 50UD or "SP" for using the Seaman-Powell method
 area_proj   <- "laea"                     # Specify projection for area calculations
-weighted    <- "TRUE"                     # are grids being weighted (TRUE or FALSE)
-grid_adj    <- "FALSE"                    # "TRUE" for an adjusted grid and "FALSE" for a fixed grid
+weighted    <- "TRUE"                     # are grids weighted? (TRUE or FALSE) - if TRUE, grids will be weighted differently for central-place-foraging species and for nomadic species
+grid_adj    <- "FALSE"                    # "TRUE" for an adjusted grid that relies on and "FALSE" for a fixed grid
 meta        <- meta                       # metadata table with range information (relevant for adjustible grid) and home range size class 'sc' (relevant for fixed grid size depending on home range size class of dataset)
 
 
@@ -113,14 +114,14 @@ for (i in 1:length(a)) { # Loop through individual species/datasets--
     ud_table <- rbind(ud_table, area_tab)
   }
   
-  save(ud_list,file=paste(dropdir,sp_name, "_Poly_Grid_List.Rdata", sep=""))
+  save(ud_list,file=paste0(dropdir,sp_name, "_Poly_Grid_List.Rdata"))
   
   rm(area_tab, spds_m, sp_name, lat, lon, weightv, ud_list)   
 
   }
 
 
-
+# Save datatable with speciesID, 90UD_area, core_thresh_UD, coreUD_area, samplesize 
 require(dplyr)
 tbl_df = mutate_if(ud_table[,c(1:7)], is.numeric, as.integer)
 tbl_df <- tbl_df %>%
@@ -136,7 +137,7 @@ for (i in 1:length(a)) {
 
 tbl_df2 <- tbl_df %>% mutate(n=ndf$n)
 tbl_df2 <- tbl_df2 %>% dplyr::select(spp_ds, areaKM90, Seaman_Core_Thresh, areaKM_spCore, n)
-
+write.csv(tbl_df2,file=paste0(dropdir,"df_homerange_areas_KM.csv"))
 
 
 
