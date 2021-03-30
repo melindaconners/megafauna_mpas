@@ -137,7 +137,7 @@ HomeRangeFunctionPub <- function(dropdir, sp_name, lon, lat, weightv, hr_ud, cor
       }  
     }
     
-    SPoutList <- SPCoreFunction(grid_ct_sppi)
+    SPoutList <- fn_coreUD_SP(grid_ct_sppi)
     polyi.SPcore <- SPoutList[[1]]
     ud_core_sppi <- SPoutList[[2]]
     
