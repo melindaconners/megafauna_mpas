@@ -1,8 +1,5 @@
 # megafauna_mpas
 
-## This repository contains the major scripts and functions for the MPA/marine megafauna project.
-Note: (March 2021) This repository is active and incomplete but will contain the full set of scripts/functions by the publishing date.
-
 #### 'a1_gridUD_loop'
 This is the main script for running the gridded UD analysis on the multi-species dataset. The script loops through each species dataset and calls the following three functions (found in the 'functions' folder): 
 - fn_HomeRangePub.R: calculates home range and core areas
